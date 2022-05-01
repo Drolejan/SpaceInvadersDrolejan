@@ -36,5 +36,8 @@ public class playerControl : MonoBehaviour
     void Movement()
     {
         rb.velocity = new Vector2(inputH*speed, rb.velocity.y);
+        var pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, 0.05f, 0.95f);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 }

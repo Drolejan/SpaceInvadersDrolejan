@@ -16,4 +16,18 @@ public class bulletMovement : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bounds"))
+        {
+            Destroy(gameObject);
+        }
+
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<enemyBehaviour>().TakeDamage();
+            Destroy(gameObject);
+        }
+    }
 }
