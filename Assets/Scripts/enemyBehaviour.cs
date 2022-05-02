@@ -8,18 +8,19 @@ public class enemyBehaviour : MonoBehaviour
     [SerializeField] int value;
     int health;
     GameObject swarm;
+
     void OnEnable()
     {
         health = maxHealth;
-
         swarm = GameObject.FindGameObjectWithTag("Swarm");
-        
     }
 
-    void Update()
+    void OnDisable()
     {
-
+        StopAllCoroutines();
     }
+
+    
 
     public void TakeDamage()
     {

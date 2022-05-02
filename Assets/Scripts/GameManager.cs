@@ -7,12 +7,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     int score;
+    int playerHealth;
     public Text scoreText;
+    public Text healthText;
+    public Text finalScoreText;
     public GameObject[] gameScreens;
     int levelLayout;
     public GameObject swarm1;
     public GameObject swarm2;
-
+    public bool playerActive;
     private void Awake()
     {
         instance = this;
@@ -20,7 +23,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        score = 0;
+        ResetScore();
+        playerActive = false;
     }
 
     void Update()
@@ -41,10 +45,27 @@ public class GameManager : MonoBehaviour
         scoreText.text = "SCORE:" + score;
     }
 
+    public void takeDamage()
+    {
+        playerHealth--;
+        healthText.text = "HEALTH:" + playerHealth;
+        if (playerHealth < 1)
+        {
+            gameOver();
+        }
+    }
+
+    public void gameOver()
+    {
+        ChangeScreens(2);
+    }
+
     public void ResetScore()
     {
         score = 0;
+        playerHealth = 3;
         scoreText.text = "SCORE:" + score;
+        healthText.text = "HEALTH:" + playerHealth;
     }
 
     public void selectLayout(int level)
@@ -61,6 +82,7 @@ public class GameManager : MonoBehaviour
         gameScreens[screen].SetActive(true);
         if (screen == 1)
         {
+            playerActive = true;
             switch (levelLayout)
             {
                 case 1:
@@ -73,6 +95,14 @@ public class GameManager : MonoBehaviour
                     print("That level does not exist... yet");
                     break;
             }
+        }
+        else if (screen == 2)
+        {
+            finalScoreText.text = "Final Score:" + score;
+            swarm1.SetActive(false);
+            swarm2.SetActive(false);
+            playerActive = false;
+            ObjectPooler.SharedInstance.ResetPool();
         }
     }
 }

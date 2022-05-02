@@ -27,9 +27,16 @@ public class playerControl : MonoBehaviour
 
     void Shoot()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")&&GameManager.instance.playerActive)
         {
-            Instantiate(bullet, transform.position, transform.rotation);
+            //Instantiate(bullet, transform.position, transform.rotation);
+            GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("Player Bullet");
+            if (bullet != null)
+            {
+                bullet.transform.position = transform.position;
+                bullet.transform.rotation = transform.rotation;
+                bullet.SetActive(true);
+            }
         }
     }
 

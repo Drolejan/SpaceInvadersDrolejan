@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bulletMovement : MonoBehaviour
+public class laserMovement : MonoBehaviour
 {
-    Rigidbody2D Brb;
-    [SerializeField] int Bspeed;
+    Rigidbody2D Lrb;
+    [SerializeField] int Lspeed;
     void OnEnable()
     {
-        Brb=GetComponent<Rigidbody2D>();
-        Brb.velocity = new Vector2(0, 1)*Bspeed;
+        Lrb = GetComponent<Rigidbody2D>();
+        Lrb.velocity = new Vector2(0, -1) * Lspeed;
     }
 
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,9 +25,9 @@ public class bulletMovement : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<enemyBehaviour>().TakeDamage();
+            GameManager.instance.takeDamage();
             //Destroy(gameObject);
             gameObject.SetActive(false);
         }
