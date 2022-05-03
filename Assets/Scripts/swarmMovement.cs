@@ -11,6 +11,9 @@ public class swarmMovement : MonoBehaviour
     public GameObject laser;
     public int rate;
     int maxRate;
+    public GameObject[] enemies;
+    [SerializeField] float xoffset, yoffset,colummns;
+
     void OnEnable()
     {
         dir = 1;
@@ -24,9 +27,17 @@ public class swarmMovement : MonoBehaviour
         }
     }
 
-    private void Start()
+    void Start()
     {
         maxRate = rate;
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            for (int j = 0; j < colummns; j++)
+            {
+                Vector3 posE = new Vector3(transform.position.x + j * xoffset, transform.position.y + i * yoffset, 0);
+                GameObject obj = (GameObject)Instantiate(enemies[i], posE, transform.rotation,transform);
+            }
+        }
     }
 
     void Update()
