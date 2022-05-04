@@ -27,7 +27,8 @@ public class enemyBehaviour : MonoBehaviour
         health--;
         if (health < 1)
         {
-            GameManager.instance.UpdateScore(value);
+            int bonus=swarm.GetComponent<swarmMovement>().bonus;
+            GameManager.instance.UpdateScore(value*bonus);
             if (swarm.GetComponentsInChildren<enemyBehaviour>().GetLength(0) < 2)
             {
                 GameManager.instance.ChangeScreens(2);

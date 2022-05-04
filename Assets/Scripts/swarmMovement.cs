@@ -11,12 +11,14 @@ public class swarmMovement : MonoBehaviour
     public GameObject laser;
     public int rate;
     int maxRate;
+    public int bonus;
     public GameObject[] enemies;
-    [SerializeField] float xoffset, yoffset,colummns;
+    [SerializeField] float xoffset, yoffset,colummns,waitTime,shootRate;
 
     void OnEnable()
     {
         dir = 1;
+        bonus = 3;
         initialPos = GameObject.Find("spawnSwarmPoint").GetComponent<Transform>();
         transform.position = initialPos.position;
         StartCoroutine(changeDir());
@@ -54,7 +56,7 @@ public class swarmMovement : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(shootRate);
             shootPos = GetComponentsInChildren<Transform>();
             Transform randomPos = shootPos[Random.Range(1, shootPos.Length)];
             //Instantiate(laser, randomPos.position, randomPos.rotation);
@@ -72,13 +74,14 @@ public class swarmMovement : MonoBehaviour
     {
         do
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(waitTime);
             dir *= -1;
             rate--;
             if (rate<1)
             {
                 transform.position = new Vector2(transform.position.x, transform.position.y - 1);
                 rate = maxRate;
+                if (bonus > 1) bonus--;
             }
         } while (true);
     }
